@@ -6,6 +6,7 @@
     <meta name="viewport" content="width=device-width,initial-scale=1" />
     <link rel="stylesheet" href="modal.css" />
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <script src="https://kit.fontawesome.com/f629b691f4.js" crossorigin="anonymous"></script>
     <link
       href="https://fonts.googleapis.com/css?family=DM+Sans"
       rel="stylesheet"
@@ -57,51 +58,58 @@
           <span class="close"></span>
           <div class="modal-body">
             <form
-              name="reserve"
-              action="index.html"
-              method="get"
-              onsubmit="return validate();"
+            name="reserve"
+            action="index.html"
+            id="form"
+            method="GET"
             >
               <div
-                class="formData">
+              
+                class="formData  ">
                 <label for="first">Prénom</label><br>
                 <input
                   class="text-control"
                   type="text"
                   id="first"
                   name="first"
-                  minlength="2"
-                  required
-                  value="imane"
-                /><br>
+                  placeholder="John"
+                />
+                <!-- <i class="fas fa-check-circle"></i> -->
+                <i class="fas fa-circle-exclamation"></i>
+                <small ></small>
               </div>
               <div
-                class="formData">
+              
+                class="formData  ">
                 <label for="last">Nom</label><br>
                 <input
                   class="text-control"
                   type="text"
                   id="last"
                   name="last"
-                  minlength="2"
-                  required
-                  value="imane"
-                /><br>
+                  placeholder="Doe"
+                />
+                <!-- <i class="fas fa-check-circle"></i> -->
+                <i class="fas fa-circle-exclamation"></i>
+                <small ></small>
               </div>
               <div
-                class="formData">
+
+                class="formData  ">
                 <label for="email">E-mail</label><br>
                 <input
                   class="text-control"
-                  type="email"
+                  
                   id="email"
                   name="email"
-                  pattern=".+@.+\..+"
-                  required
-                  value="imane.bichon@icloud.com"
-                /><br>
+                  placeholder="john@doe.com"
+                />
+                <!-- <i class="fas fa-check-circle"></i> -->
+                <i class="fas fa-circle-exclamation"></i>
+                <small ></small>
               </div>
               <div
+
                 class="formData">
                 <label for="birthdate">Date de naissance</label><br>
                 <input
@@ -109,25 +117,35 @@
                   type="date"
                   id="birthdate"
                   name="birthdate"
-                  value="1980-01-01"
-                /><br>
+                />
+                <!-- <i class="fas fa-check-circle"></i> -->
+                <!-- <i class="fas fa-circle-exclamation"></i> -->
+                <small ></small>
+                
               </div>
+              <br>
               <div
+
                 class="formData">
                 <label for="quantity">À combien de tournois GameOn avez-vous déjà participé ?</label><br>
-                <input type="number" class="text-control" id="quantity" name="quantity" min="0" max="99" required value="1">
+                <input type="number" class="text-control" id="quantity" name="quantity" min="0" max="99">
+                <!-- <i class="fas fa-check-circle"></i> -->
+                <!-- <i class="fas fa-circle-exclamation"></i> -->
+                <small ></small>
               </div>
+              <br>
               <p class="text-label">A quel tournoi souhaitez-vous participer cette année ?</p>
               <div
+              
                 class="formData">
                 <input
-                  class="checkbox-input"
+                  class="checkbox-input field"
                   type="radio"
                   id="location1"
                   name="location"
                   value="New York"
-                  checked
-                  required="required"
+                  
+                  
                   
                 />
                 <label class="checkbox-label" for="location1">
@@ -189,9 +207,12 @@
                   <span class="checkbox-icon"></span>
                   Portland</label
                 >
+                <small ></small>
+                
               </div>
 
               <div
+              data-error="Veuillez accepter les conditions d'utilisation."
                 class="formData">
                 <input
                   class="checkbox-input"
@@ -204,7 +225,9 @@
                   <span class="checkbox-icon"></span>
                   J'ai lu et accepté les conditions d'utilisation.
                 </label>
-                <br>
+                <small></small>
+                <i class="fas fa-circle-exclamation hover"></i>
+                
                 <input class="checkbox-input" type="checkbox" id="checkbox2" name="newsletters"/>
                 <label class="checkbox2-label" for="checkbox2">
                   <span class="checkbox-icon"></span>
@@ -218,6 +241,20 @@
                 value="C'est parti"
               />
             </form>
+            <div class="bground2 ">
+              <div id="container-confirmation-submit">
+                <div id="submitted-form">
+                  <span class="close-confirmation"></span>
+                  <p class="confirmation-message">
+                    Merci pour 
+                    <br>
+                    votre inscription
+                  </p>
+                  <button id="close-btn-confirmation"> Fermer
+                  </button>
+                </div>
+              </div>
+            </div>
           </div>
         </div>
       </div>
