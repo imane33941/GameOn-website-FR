@@ -11,9 +11,7 @@
 /* Landing Page */
 
 body {
-  /* display: flex; */
   flex-direction: column;
-  /* background-image: url("background.png"); */
   font-family: var(--font-default);
   font-size: 18px;
   max-width: 1300px;
@@ -119,7 +117,6 @@ main {
   background: #fe142f;
   display: flex;
   margin: auto;
-  /* padding: 2em; */
   color: #fff;
   padding: 0.75rem 2.5rem;
   border-radius: 1rem;
@@ -128,12 +125,6 @@ main {
 
 .modal-btn:hover {
   background: #3876ac;
-}
-
-.footer {
-  /* margin: 20px; */
-  /* padding: 10px; */
-  font-family: var(--font-slab);
 }
 
 /* Modal form */
@@ -152,10 +143,6 @@ main {
   background: #3876ac;
 }
 
-.smFont {
-  font-size: 16px;
-}
-
 .bground {
   display: none;
   position: fixed;
@@ -168,9 +155,6 @@ main {
   background-color: rgba(26, 39, 156, 0.4);
 }
 .bground.active{
-  display: block;
-}
-.validation-message.active {
   display: block;
 }
 
@@ -215,18 +199,18 @@ input {
   position: relative;
 }
 
+/* ERRORS MESSAGES  */
 .formData i {
   position: absolute;
   display: flex;
   justify-content: flex-end;
-  /* top: 50%; */
   transform: translateY(-150%);
   color: red;
   right: 50px;
-
   visibility: hidden;
 }
 .formData small {
+  display: block;
   left: 0;
   bottom: 10px;
   visibility: hidden;
@@ -235,11 +219,8 @@ input {
 .formData small.hidden {
   display: none;
 }
-.formData small.active {
-  display: block;
-}
 .formData.success input {
-  border: 2px solid green;
+  border: 3px solid green;
 }
 
 .formData.error input {
@@ -250,49 +231,13 @@ input {
   visibility: visible;
 }
 .formData.error i.fa-circle-exclamation {
-  border-color: 5px solid black;
   visibility: visible;
 }
-
-.formData.error i.hover:hover{
-  content: "test";
-  /* border: 0px solid red; */
-  visibility: visible;
-}
-
 
 .formData.error small {
   color: red;
   visibility: visible;
 }
-
-.validation-message {
-  min-height: 600px;
-}
-.text-validation-message {
-  display: flex;
-  height: 600px;
-  align-items: center;
-  justify-content: center;
-  flex-direction: column;
-}
-.position-text-validation-message {
-  width: 100%;
-  display: flex;
-  justify-content: center;
-}
-
-
-.button-close-modal-validation {
-  background-color: red;
-  color: white;
-  font-size: 16px;
-  border: transparent;
-  cursor: pointer;
-}
-
-
-
 
 .formData[data-error]::after {
   content: attr(data-error);
@@ -312,12 +257,7 @@ input {
 .formData[data-error-visible="true"] .text-control {
   border: 2px solid #e54858;
 }
-/* 
-input[data-error]::after {
-    content: attr(data-error);
-    font-size: 0.4em;
-    color: red;
-} */
+
 .checkbox-label,
 .checkbox2-label {
   position: relative;
@@ -497,7 +437,6 @@ input[data-error]::after {
   font-size: 16px;
 }
 .hero-section {
-  /* min-height: 93vh; */
   border-radius: 10px;
   display: grid;
   grid-template-columns: repeat(12, 1fr);
@@ -612,16 +551,7 @@ footer {
   }
 }
 
-@keyframes modalopen {
-  from {
-    opacity: 0;
-    transform: translateY(-150px);
-  }
-  to {
-    opacity: 1;
-  }
-}
-
+/* CONFIRMATION MESSAGE */
 #container-confirmation-submit{
   margin: 0px 0px;
   width: 100%;
@@ -654,7 +584,6 @@ footer {
 
 .confirmation-message{
   text-align: center;
-  /* margin: 200px 200px; */
   font-size: 48px;
   font-weight: 300;
   display: flex;
@@ -667,8 +596,7 @@ footer {
 
 }
 
-.bground2
-  {
+.bground2 {
     display: none;
     position: absolute;
     z-index: 0;
@@ -679,7 +607,8 @@ footer {
     overflow: auto;
     background-color: rgba(26, 39, 156, 0.4);
   }
-  .bground2.active {
+  
+.bground2.active {
     display: block;
   }
 
@@ -706,4 +635,14 @@ footer {
   }
   .close-confirmation:after {
     transform: rotate(-45deg);
+  }
+
+  @keyframes modalopen {
+    from {
+      opacity: 0;
+      transform: translateY(-150px);
+    }
+    to {
+      opacity: 1;
+    }
   }

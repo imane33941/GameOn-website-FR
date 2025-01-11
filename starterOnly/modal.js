@@ -1,3 +1,4 @@
+// La récupération des elements
 const [
   modalBground,
   closeModalButton,
@@ -28,14 +29,51 @@ const [
 
 const modalButtons = document.querySelectorAll(".modal-btn");
 const formInputs = document.querySelectorAll(".formData");
-const newsletters = document.getElementById("checkbox2");
 const closeConfirmation = document.getElementById("close-btn-confirmation");
 const spanConfirmation = document.getElementsByClassName("close-confirmation");
 
-form.addEventListener("submit", (e) => {
-  e.preventDefault();
-  let count = 0;
+// const pour supprimer les valeurs renseignées au niveau de chaque champ rempli.
+const resetForm = () => {
+  document
+    .querySelectorAll(".text-control")
+    .forEach((input) => (input.value = ""));
+  document
+    .querySelectorAll(".checkbox-input")
+    .forEach((input) => (input.checked = false));
+  conditionsAccepted.checked = true;
+  document
+    .querySelectorAll("input[type=radio]")
+    .forEach((input) => (input.checked = false));
+  document.querySelectorAll("small").forEach((errorElt) => {
+    errorElt.classList.add("hidden");
+    errorElt.classList.remove("active");
+  });
+  formInputs.forEach((input) => {
+    input.classList.remove("error");
+    input.classList.remove("success");
+  });
+};
 
+// Evenements
+modalButtons.forEach((btn) => btn.addEventListener("click", launchModal));
+closeModalButton.addEventListener("click", closeModal);
+closeConfirmation.addEventListener("click", closeValidation);
+spanConfirmation[0].addEventListener("click", closeValidation);
+
+form.addEventListener("submit", (e) => {
+  // Empêcher le comportement de la soumission du formulaire
+  e.preventDefault();
+
+  form_verify();
+});
+
+// Les fonctions:
+
+// fonction qui récupère les données du form et demande la vérificaiton
+function form_verify() {
+  let numberOfValidInputs = 1;
+
+  // Récupérer toutes les valeurs des inputs
   const objectForm = {
     firstName: firstNameInput.value,
     lastName: lastNameInput.value,
@@ -51,20 +89,7 @@ form.addEventListener("submit", (e) => {
     isAcceptNotifications: document.querySelector("#checkbox2").checked,
   };
 
-  //   // Enregistrer dans le localstorage
-  localStorage.setItem("firstName", objectForm.firstName);
-  localStorage.setItem("lastName", objectForm.lastName);
-  localStorage.setItem("email", objectForm.email);
-  localStorage.setItem("birthdate", objectForm.birthdate);
-  localStorage.setItem("quantity", objectForm.quantity);
-  localStorage.setItem("location", objectForm.location);
-  localStorage.setItem("isAcceptConditions", objectForm.isAcceptConditions);
-  localStorage.setItem(
-    "isAcceptNotifications",
-    objectForm.isAcceptNotifications
-  );
-
-  //   // verify prenom:
+  // verify prenom:
   if (objectForm.firstName == "") {
     let message = "le champ prénom ne peut être vide";
     setError(firstNameInput, message);
@@ -79,7 +104,7 @@ form.addEventListener("submit", (e) => {
     } else {
       setSuccess(firstNameInput);
 
-      count++;
+      numberOfValidInputs++;
     }
   }
   // verify nom:
@@ -96,7 +121,7 @@ form.addEventListener("submit", (e) => {
       setError(lastNameInput, message);
     } else {
       setSuccess(lastNameInput);
-      count++;
+      numberOfValidInputs++;
     }
   }
   // verify email:
@@ -109,7 +134,7 @@ form.addEventListener("submit", (e) => {
     setError(emailInput, message);
   } else {
     setSuccess(emailInput);
-    count++;
+    numberOfValidInputs++;
   }
   // verify birthdate:
   if (objectForm.birthdate.length < 1) {
@@ -117,15 +142,16 @@ form.addEventListener("submit", (e) => {
     setError(birthdate, message);
   } else {
     setSuccess(birthdate);
-    count++;
+    numberOfValidInputs++;
   }
   // verify quantity:
-  if (objectForm.quantity.length < 1 || objectForm.quantity < 0) {
-    let message = "Veuillez renseigner le champs quantité de tournois.";
+  if (objectForm.quantity.length < 1 || objectForm.quantity > 99) {
+    let message =
+      "Veuillez renseigner le champs quantité de tournois entre 0 et 99.";
     setError(quantity, message);
   } else {
     setSuccess(quantity);
-    count++;
+    numberOfValidInputs++;
   }
   // verify city:
   if (objectForm.location === null) {
@@ -133,7 +159,7 @@ form.addEventListener("submit", (e) => {
     setError(locationRadio, message);
   } else {
     setSuccess(locationRadio);
-    count++;
+    numberOfValidInputs++;
   }
   // verify conditions:
   if (objectForm.isAcceptConditions === false) {
@@ -141,57 +167,66 @@ form.addEventListener("submit", (e) => {
     setError(conditionsAccepted, message);
   } else {
     setSuccess(conditionsAccepted);
-    count++;
+    numberOfValidInputs++;
   }
 
-  if (count == 7) {
+  if (numberOfValidInputs === Object.keys(objectForm).length) {
     validation.style.display = "block";
-    const fields = document.querySelectorAll(".text-control");
-    for (let i = 0; i < fields.length; i++) {
-      fields[i].value = "";
-    }
+    console.log("récupération de notre objet avec les valeurs", objectForm);
+
+    // appeler la const pour reset les valeurs des inputs après soumission du formulaire
+    resetForm();
   }
-});
+}
 
-modalButtons.forEach((btn) => btn.addEventListener("click", launchModal));
-closeModalButton.addEventListener("click", closeModal);
-closeConfirmation.addEventListener("click", closeValidation);
-spanConfirmation[0].addEventListener("click", closeValidation);
-
+// fonction permettant l'affichage des erreurs
 function setError(elem, message) {
   const formControl = elem.parentElement;
   const small = formControl.querySelector("small");
+
+  // Ajout du message d'erreur
   small.innerText = message;
-  formControl.className = "formData error";
-  small.classList.add("active");
+
+  // Ajout de la classe error
+  formControl.classList.add("error");
+  formControl.classList.remove("success");
   small.classList.remove("hidden");
 }
 
+// fonction permettant de remove les erreurs
 function setSuccess(elem) {
   const formControl = elem.parentElement;
   const small = formControl.querySelector("small");
-  formControl.className = "formData success";
+  formControl.classList.remove("error");
+  formControl.classList.add("success");
   small.classList.add("hidden");
-  small.classList.remove("active");
 }
 
-function closeValidation(e) {
+// Fonction qui ferme le message de validation
+function closeValidation() {
+  // cacher le formulaire
   modalBground.classList.remove("active");
+  // fermer le message de validation
   validation.style.display = "none";
 }
 
+// fonction qui vérifie si email valide via les regex (expression régulière)
 function email_verify(emailInput) {
-  const regexEmail =
-    /^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+  const regexEmail = /^[a-z0-9._-]+@[a-z0-9]{2,}\.[a-z]{2,4}$/;
   return regexEmail.test(emailInput);
 }
 
+// Ouvrir la modal du formulaire
 function launchModal() {
+  // afficher la modal avec formulaire
   modalBground.classList.add("active");
+  // cacher le message de validation
   validation.classList.remove("active");
 }
 
+// Fermer la modal du formulaire
 function closeModal() {
+  resetForm();
   modalBground.classList.remove("active");
 }
 
